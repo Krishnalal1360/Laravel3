@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Jobs\SendWelcomeEmail;
 use App\Http\Controllers\PostController;
-use App\Events\SendMessageEvent;
+use App\Events\MyEvent;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,8 +32,8 @@ Route::get('/message', function(){
 
 Route::get('/send-message', function(){
     //
-    event(new SendMessageEvent("Hello! I am Laravel!"));
-    dd("Message Sent!");
+    event(new MyEvent("Or Else Learn Java!"));
+    //dd("Message Sent!");
 });
 
 Route::resource('post', PostController::class);
