@@ -32,8 +32,8 @@ Route::get('/message', function(){
 
 Route::get('/send-message', function(){
     //
-    event(new MyEvent("Or Else Learn Java!"));
-    //dd("Message Sent!");
+    event(new MyEvent("Hello World!"));
+    return view('broadcast.message'); // websocket connection check in dev tools
 });
 
 Route::resource('post', PostController::class);

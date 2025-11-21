@@ -1,15 +1,17 @@
-import Echo from 'laravel-echo';
+// Persist messages across HMR reloads
+window.messages = window.messages || [];
 
-import Pusher from 'pusher-js';
-window.Pusher = Pusher;
+const alpineComponent = document.querySelector('[x-data]')?.__x?.$data;
 
-window.Echo = new Echo({
-    broadcaster: "pusher",
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    forceTLS: true,
-    wsHost: import.meta.env.VITE_PUSHER_HOST,
-    wsPort: import.meta.env.VITE_PUSHER_PORT,
-    wssPort: import.meta.env.VITE_PUSHER_PORT,
-    enabledTransports: ["ws", "wss"],
+window.Echo.channel('my-channel').listen('.my-event', (e) => {
+    if (alpineComponent) {
+        alpineComponent.messages.push(e.message);
+    } else {
+        // fallback for dev HMR reload
+        window.messages.push(e.message);
+        const div = document.getElementById('msg');
+        if (div) {
+            div.innerHTML = window.messages.map(m => `<p>${m}</p>`).join('');
+        }
+    }
 });
