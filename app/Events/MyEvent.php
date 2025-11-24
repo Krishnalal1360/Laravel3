@@ -6,6 +6,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Broadcasting\Channel;
 
 class MyEvent implements ShouldBroadcast
 {
@@ -18,12 +19,12 @@ class MyEvent implements ShouldBroadcast
       $this->message = $message;
   }
 
-  public function broadcastOn()
+  public function broadcastOn():Channel
   {
-      return ['my-channel'];
+      return new Channel('my-channel');
   }
 
-  public function broadcastAs()
+  public function broadcastAs():string
   {
       return 'my-event';
   }

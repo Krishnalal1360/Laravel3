@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Jobs\SendWelcomeEmail;
 use App\Http\Controllers\PostController;
 use App\Events\MyEvent;
+use App\Events\NewMessage;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,8 +33,16 @@ Route::get('/message', function(){
 
 Route::get('/send-message', function(){
     //
-    event(new MyEvent("Hello World!"));
-    return view('broadcast.message'); // websocket connection check in dev tools
+    event(new MyEvent("Welcome To Larvel Broadcasting!"));
+    //return view('broadcast.message'); // websocket connection check in dev tools
+    return 'Message Sent!';
+});
+
+Route::get('/send-private-message', function(){
+    //
+    event(new NewMessage("Welcome To Larvel Private Broadcasting!", 1));
+    //return view('broadcast.message'); // websocket connection check in dev tools
+    return 'Private Message Sent!';
 });
 
 Route::resource('post', PostController::class);
